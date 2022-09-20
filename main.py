@@ -4,13 +4,23 @@ from data_structures.stack import Stack
 from data_structures.queue import Queue
 from data_structures.binary_tree import BinaryTree
 from data_structures.binary_search_tree import BinarySearchTree
+import copy
 
 
 # Iterate a linked list iteratively and return the largest value
 # input_linked_list (7)->(2)->(13)->(9)->(3)
 def iterate_linkedlist_iteratively(input_linked_list):
     # code here, change return the largest value
-    return 0
+
+    if input_linked_list.head.value == None:
+        return "List has no values"
+    highest = input_linked_list.head.value
+    current = input_linked_list.head.value
+    while current is not None:
+        if current.value > highest:
+            highest = current.value
+        current = current.next
+    return highest
 
 
 # ##################### NEW #####################################
@@ -19,7 +29,15 @@ def iterate_linkedlist_iteratively(input_linked_list):
 # input_linked_list (7)->(2)->(13)->(9)->(3)
 def iterate_linkedlist_iteratively_small(input_linked_list):
     # code here, change return the smallest value
-    return 0
+    if input_linked_list.head.value == None:
+        return "List has no values"
+    smallest = input_linked_list.head.value
+    current = input_linked_list.head.value
+    while current is not None:
+        if current.value > smallest:
+            smallest = current.value
+        current = current.next
+    return smallest
 
 
 # ##################### NEW #####################################
@@ -29,7 +47,19 @@ def iterate_linkedlist_iteratively_small(input_linked_list):
 
 def iterate_linkedlist_iteratively_duplicates(input_linked_list):
     # code here, remove duplicate values
-    return 0
+    values_list = []
+    if input_linked_list.head.value == None:
+        return "List has no values"
+
+    current = input_linked_list.head.value
+    values_list.append(current.value)
+    while current.next is not None:
+        if current.next.value not in values_list:
+            values_list.append(current.next.value)
+        else:
+            current.next = current.next.next
+        current = current.next
+    return input_linked_list
 
 
 # ##################### NEW #####################################
@@ -39,7 +69,15 @@ def iterate_linkedlist_iteratively_duplicates(input_linked_list):
 
 def iterate_linkedlist_furthest_from_zero(input_linked_list):
     # code here, remove duplicate values
-    return 0
+    if input_linked_list.head.value == None:
+        return "List has no values"
+    farthest = abs(input_linked_list.head.value)
+    current = input_linked_list.head.value
+    while current is not None:
+        if abs(current.value) > farthest:
+            farthest = abs(current.value)
+        current = current.next
+    return farthest
 
 
 # Iterate a linked list recursively and return the largest value
@@ -51,18 +89,29 @@ def iterate_linkedlist_recursively(input_node, largest=0):
 
 # ##################### NEW #####################################
 # Write a test to cover this
-# Iterate through a linked list recursively and return the largest value
+# Iterate through a linked list recursively and return the smallest value
 # input_linked_list (7)->(2)->(13)->(9)->(3)
-def iterate_linkedlist_recursively_smallest(input_node, largest=0):
-    # code here, change return the largest value
+def iterate_linkedlist_recursively_smallest(input_node, smallest=0):
+    # code here, change return the smallest value
     return 0
-
+    
 
 # Iterate a stack iteratively and return the largest value
 # input_stack (7)->(2)->(13)->(9)->(3)
 def iterate_stack_iteratively(input_stack):
     # code here, change return the largest number
-    return 0
+    # The input stack would have its order reversed here but would contain all values
+    if input_stack.top.value is None:
+        return "Stack has no nodes with values"
+    largest = input_stack.top.value
+    stack2 = Stack()
+    while input_stack.is_empty == False:
+        temp = input_stack.pop()
+        if temp > largest:
+            largest = temp
+        stack2.push(Node(temp))
+    input_stack = copy.deepcopy(stack2)
+    return largest
 
 
 # Iterate a stack recursively and return the largest value
@@ -133,7 +182,27 @@ def level_order_traversal(input_tree):
 # Given a bst, return value the furthest removed from zero
 def bst_contains(input_tree):
     # code here, return value the furthest remove from zero
-    return None
+    if input_tree.root.value == None:
+        return "Tree root has no value"
+    farthest = input_tree.root.value
+
+    def smallest(root):
+        if abs(root.value)>farthest:
+            farthest = root.value
+        if root.left:
+            smallest(root.left) 
+    
+    def largest(root):
+        if (root.value)>farthest:
+            farthest = root.value
+        if root.right:
+            largest(root.right)
+
+    smallest(input_tree.root)
+
+    largest(input_tree.root)
+
+    return farthest
 
 
 # Binary Search Tree for contains
@@ -146,7 +215,21 @@ def bst_contains(input_tree):
 # Given a value return true or false if it's contained within the binary search tree
 def bst_contains(input_tree, value):
     # code here, return true or false
-    return None
+    if input_tree.root.value == None:
+        return "Tree root has no value"
+    contained = False
+
+    def within(root):
+        if (root.value) == value:
+            contained = True
+        if root.left:
+            within(root.left) 
+        if root.right:
+            within(root.right) 
+
+    within(input_tree.root)
+
+    return contained
 
 
 # -----------------------------------------------------
